@@ -1,7 +1,8 @@
 class Node():
     # Empty constructor
-    def __init__(self, value = None, next = None, previous = None):
+    def __init__(self, data, value = None, next = None, previous = None):
         # Define node's basic properties: "value", "next", "previous" 
+        self.data = data
         self.value = value
         self.next = None
         self.previous = None
@@ -38,15 +39,17 @@ def set_previous(self, previous):
     # Return node
     return self
 
-def remove_at_index(lst, index):
-    if 0 <= index < len(lst):
-        del lst[index]
-    else:
-        raise IndexError("Index is out of range.")
-
 class LinkedList:
     def __init__(self):
         self.head = None
+
+    def __len__(self):
+        count = 0
+        current = self.head
+        while current:
+            count += 1
+            current = current.next
+        return count
 
     def add(self, value):
         new_node = Node(value)
@@ -75,10 +78,10 @@ class LinkedList:
         current.next = new_node
 
     def print_list(self):
-        current = self.head
-        while current:
-            print(current.value, end = " ")
-            current = current.next
+        temp = self.head
+        while temp:
+            print(temp.data)
+            temp = temp.next
         print()
     
     def get_at_index(self, index):
@@ -94,15 +97,42 @@ class LinkedList:
             count += 1
 
         return None
+    
+    def remove_at_index(self, index):
+        if index < 0:
+            raise IndexError("Index out of range.")
+        
+        if index == 0:
+            if self.head in None:
+                raise IndexError()
+            self.head = self.head.next
+            return
+        
+        current = self.head
+        prev = None
+        for i in range(index):
+            if current is None:
+                raise IndexError("Index is out of range.")
+            prev = current
+            current = current.next
+
+        if current is None:
+            raise IndexError("Index is out of range.")
+        
+        prev.next = current.next
 
 node_list = LinkedList()
-node_list.add(18)
+node_list.head = Node(17)
 node_list.add(13)
+node_list.add(8)
 node_list.add(3)
 
 node_list.print_list()
-remove_at_index(node_list, 1)
-print(node_list)
+
+print(node_list.head.data)
+
+node_list.remove_at_index(node_list)
+print.remove_at_index()
 
 second_node = node_list.head.next
 print(node_list.get(second_node).value)
